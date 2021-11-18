@@ -8,7 +8,7 @@ function find_tsp_tour(x, y)
     return tsp_tour
 end
 
-function exact_partitioning(initial_tour, Ct, Cd)
+function exact_partitioning(initial_tour, Ct, Cd, flying_range)
     n, _ = size(Ct)
 
     r = initial_tour
@@ -22,13 +22,15 @@ function exact_partitioning(initial_tour, Ct, Cd)
             else
                 for k in i+1:j-1
                     Tk1 = Cd[r[i], r[k]] + Cd[r[k], r[j]]
-                    Tk2 = sum([Ct[r[l], r[l+1]] for l in i:k-2]) + 
-                            Ct[r[k-1], r[k+1]] + 
-                            sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
-                    Tk = max(Tk1, Tk2)
-                    if Tk < T[i, j]
-                        T[i, j] = Tk
-                        M[r[i], r[j]] = r[k]
+                    if Tk1 <= flying_range
+                        Tk2 = sum([Ct[r[l], r[l+1]] for l in i:k-2]) + 
+                                Ct[r[k-1], r[k+1]] + 
+                                sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
+                        Tk = max(Tk1, Tk2)
+                        if Tk < T[i, j]
+                            T[i, j] = Tk
+                            M[r[i], r[j]] = r[k]
+                        end
                     end
                 end       
                 
@@ -85,7 +87,7 @@ function exact_partitioning(initial_tour, Ct, Cd)
     end        
 
     # Retrieving solutions.
-    combined_nodes = []
+    combined_nodes = Int[]
     current_idx = n
     current = r[current_idx]
     while current != -1 
@@ -147,7 +149,7 @@ end
 
 
 # Main function to call
-function tsp_ep_all(x_coordinates, y_coordinates, speed_truck, speed_drone; local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)    
+function tsp_ep_all(x_coordinates, y_coordinates, speed_truck, speed_drone, flying_range; local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)    
     """
     Runs `TSP-ep-all` heuristic algorithm of Agatz et al.
 
@@ -165,15 +167,15 @@ function tsp_ep_all(x_coordinates, y_coordinates, speed_truck, speed_drone; loca
     tsp_tour = find_tsp_tour(x_coordinates, y_coordinates)
     push!(tsp_tour, n_nodes+1) # adding a dummy node for the returning depot 
 
-    return tsp_ep_all(Ct, Cd, tsp_tour, local_search_methods=local_search_methods, time_limit=time_limit)
+    return tsp_ep_all(Ct, Cd, tsp_tour, flying_range, local_search_methods=local_search_methods, time_limit=time_limit)
 end
 
 
-function tsp_ep_all(Ct, Cd, init_tour; local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)   
+function tsp_ep_all(Ct, Cd, init_tour, flying_range; local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)   
     n, _ = size(Ct)
 
     improved = true
-    best_obj, t_route, d_route = exact_partitioning(init_tour, Ct, Cd) 
+    best_obj, t_route, d_route = exact_partitioning(init_tour, Ct, Cd, flying_range) 
     best_tour = copy(init_tour)
     best_t_route = copy(t_route)
     best_d_route = copy(d_route)
@@ -208,7 +210,7 @@ function tsp_ep_all(Ct, Cd, init_tour; local_search_methods=[two_point_move, one
                     is_time_over = time() - time0 > time_limit 
 
                     if is_valid
-                        ep_time, t_route, d_route = exact_partitioning(new_tour, Ct, Cd)
+                        ep_time, t_route, d_route = exact_partitioning(new_tour, Ct, Cd, flying_range)
                         if ep_time < cur_best_obj
                             cur_best_tour = copy(new_tour)
                             cur_best_t_route = copy(t_route)
