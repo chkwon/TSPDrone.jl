@@ -115,16 +115,16 @@ def two_opt_move(tour, i, j):
 
 
 # Main function to call
-def tsp_ep_all(x_coordinates, y_coordinates, speed_truck, speed_drone):
+def tsp_ep_all(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor):
     """
     Runs `TSP-ep-all` heuristic algorithm of Agatz et al.
 
     `x_coordinates[0]`, `y_coordinates[0]`: the coordinates of the depot, then followed by all customer location coordinates
-    `speed_truck`: as defined in Agatz et al. instances
-    `speed_drone`: as defined in Agatz et al. instances
+    `truck_cost_factor`: as defined in Agatz et al. instances
+    `drone_cost_factor`: as defined in Agatz et al. instances
     """
 
-    Ct, Cd = distance_matrices(x_coordinates, y_coordinates, speed_truck, speed_drone)
+    Ct, Cd = distance_matrices(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor)
     n_nodes = len(x_coordinates)
     n1, n2 = Ct.shape
     assert n_nodes + 1 == n1
@@ -183,8 +183,8 @@ def tsp_ep_all(x_coordinates, y_coordinates, speed_truck, speed_drone):
 # Test for n11 instances
 
 def tsp_ep_all_agatz(filename, n):
-    tsp_x, tsp_y, speed_truck, speed_drone = read_data(filename, n)
-    return tsp_ep_all(tsp_x, tsp_y, speed_truck, speed_drone)
+    tsp_x, tsp_y, truck_cost_factor, drone_cost_factor = read_data(filename, n)
+    return tsp_ep_all(tsp_x, tsp_y, truck_cost_factor, drone_cost_factor)
 
 
 if __name__ == "__main__":

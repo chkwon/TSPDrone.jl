@@ -58,8 +58,8 @@ def tsp_ep_all(x, y, Ct, Cd):
     Runs `TSP-ep-all` heuristic algorithm of Agatz et al.
 
     `x_coordinates[0]`, `y_coordinates[0]`: the coordinates of the depot, then followed by all customer location coordinates
-    `speed_truck`: as defined in Agatz et al. instances
-    `speed_drone`: as defined in Agatz et al. instances
+    `truck_cost_factor`: as defined in Agatz et al. instances
+    `drone_cost_factor`: as defined in Agatz et al. instances
     """
 
     

@@ -147,16 +147,16 @@ end
 
 
 # Main function to call
-function tsp_ep_all(x_coordinates, y_coordinates, speed_truck, speed_drone; local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)    
+function tsp_ep_all(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor; local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)    
     """
     Runs `TSP-ep-all` heuristic algorithm of Agatz et al.
 
     `x_coordinates[1]`, `y_coordinates[1]`: the coordinates of the depot, then followed by all customer location coordinates
-    `speed_truck`: as defined in Agatz et al. instances
-    `speed_drone`: as defined in Agatz et al. instances
+    `truck_cost_factor`: as defined in Agatz et al. instances
+    `drone_cost_factor`: as defined in Agatz et al. instances
     """
 
-    Ct, Cd = distance_matrices(x_coordinates, y_coordinates, speed_truck, speed_drone)
+    Ct, Cd = distance_matrices(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor)
     n_nodes = length(x_coordinates)
     n1, n2 = size(Ct)
     @assert n_nodes + 1 == n1
