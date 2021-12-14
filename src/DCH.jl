@@ -1,6 +1,6 @@
 
 # divide and conquer heuristic
-function divide_conquer(x, y, speed_truck, speed_drone; n_groups=1, method="TSP-ep-all", local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)
+function divide_conquer(x, y, speed_truck, speed_drone; n_groups=1, method="TSP-ep-all", local_search_methods=[two_point_move, one_point_move, two_opt_move], flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)
 
     time0 = time()
 
@@ -38,7 +38,7 @@ function divide_conquer(x, y, speed_truck, speed_drone; n_groups=1, method="TSP-
         # @show size(Ct_)
         # @show init_tour
 
-        tspd_len, t_route_idx, d_route_idx = tsp_ep_all(Ct_, Cd_, init_tour; local_search_methods=local_search_methods, time_limit=time_limit_each_group)   
+        tspd_len, t_route_idx, d_route_idx = tsp_ep_all(Ct_, Cd_, init_tour; local_search_methods=local_search_methods, flying_range=flying_range, time_limit=time_limit_each_group)   
         total_tspd_len += tspd_len
         append!(total_t_route, group_nodes[t_route_idx])
         append!(total_d_route, group_nodes[d_route_idx])
