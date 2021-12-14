@@ -1,10 +1,10 @@
 
 # divide and conquer heuristic
-function divide_conquer(x, y, truck_cost_factor, drone_cost_factor; n_groups=1, method="TSP-ep-all", local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)
+function divide_conquer(x, y, speed_truck, speed_drone; n_groups=1, method="TSP-ep-all", local_search_methods=[two_point_move, one_point_move, two_opt_move], time_limit=MAX_TIME_LIMIT)
 
     time0 = time()
 
-    Ct, Cd = distance_matrices(x, y, truck_cost_factor, drone_cost_factor)
+    Ct, Cd = distance_matrices(x, y, speed_truck, speed_drone)
     n_nodes = length(x)
     n1, n2 = size(Ct)
     @assert n_nodes + 1 == n1

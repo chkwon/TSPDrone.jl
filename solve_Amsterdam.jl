@@ -6,8 +6,8 @@ using TSPD
 
 function test_Amsterdam(n; method="TSP-ep-all", n_groups=1, time_limit=MAX_TIME_LIMIT)
 
-    truck_cost_factor = 1
-    drone_cost_factor = 0.5
+    speed_truck = 1
+    speed_drone = 0.5
 
     filename = joinpath(@__DIR__, "../AmsterdamTSPD/Data/NewBenchmarkData/HeuristicAmsterdamTestScaled-n_nodes-$(n)-len-100.txt")
     f = open(filename, "r")
@@ -22,7 +22,7 @@ function test_Amsterdam(n; method="TSP-ep-all", n_groups=1, time_limit=MAX_TIME_
         mat = reshape(data, 2, :)
         x = mat[1, :]
         y = mat[2, :]
-        obj, _, _ = solve_tspd(x, y, truck_cost_factor, drone_cost_factor, method=method, n_groups=n_groups, time_limit=time_limit)
+        obj, _, _ = solve_tspd(x, y, speed_truck, speed_drone, method=method, n_groups=n_groups, time_limit=time_limit)
         push!(objs, obj)
     end
     t1 = time()

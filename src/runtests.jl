@@ -70,9 +70,9 @@ function test_agatz(n)
     obj_val = Float64[]
     for i in 1:10
         filename = "uniform-$(i)-n$(n).txt"
-        tsp_x, tsp_y, truck_cost_factor, drone_cost_factor = read_data(filename, n)
+        tsp_x, tsp_y, speed_truck, speed_drone = read_data(filename, n)
         
-        val, _, _ = solve_tspd(tsp_x, tsp_y, truck_cost_factor, drone_cost_factor, method="TSP-ep-all")
+        val, _, _ = solve_tspd(tsp_x, tsp_y, speed_truck, speed_drone, method="TSP-ep-all")
 
         println(val)
         push!(obj_val, val)

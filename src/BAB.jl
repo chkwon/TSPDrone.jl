@@ -97,9 +97,9 @@ function branch_and_bound(Ct, Cd, n_nodes; TER = 1.0)
     return obj_val
 end
 
-function branch_and_bound(x, y, truck_cost_factor, drone_cost_factor; TER = 1.0)
+function branch_and_bound(x, y, speed_truck, speed_drone; TER = 1.0)
 
-    Ct, Cd = distance_matrices(x, y, truck_cost_factor, drone_cost_factor)
+    Ct, Cd = distance_matrices(x, y, speed_truck, speed_drone)
     n_nodes = length(x)
     n1, n2 = size(Ct)
     @assert n_nodes + 1 == n1
