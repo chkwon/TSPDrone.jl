@@ -1,5 +1,5 @@
 
-# divide and conquer heuristic
+# divide-partition-and-search (DPS) heuristic
 function divide_partition_search(x, y, truck_cost_factor, drone_cost_factor; n_groups=1, method="TSP-ep-all", local_search_methods=[two_point_move, one_point_move, two_opt_move], flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)
 
     time0 = time()
