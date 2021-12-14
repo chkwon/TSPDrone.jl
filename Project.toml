@@ -3,6 +3,11 @@ uuid = "ec3913bb-036d-4a1d-a51c-80e93297dcf2"
 authors = ["Changhyun Kwon <chkwon@gmail.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+Concorde = "df6a336b-a67f-4155-81fc-4f05fe893652"
+Match = "7eb4fadd-790c-5f42-8a69-bfa0b872bfbf"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+
 [compat]
 julia = "1"
 
