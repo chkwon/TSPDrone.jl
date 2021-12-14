@@ -8,7 +8,7 @@ function find_tsp_tour(x, y)
     return tsp_tour
 end
 
-function exact_partitioning(initial_tour, Ct, Cd; flying_range=DRONE_RANGE)
+function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
     n, _ = size(Ct)
 
     r = initial_tour
@@ -111,7 +111,15 @@ end
 
 
 # Main function to call
-function tsp_ep_all(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor; local_search_methods=[two_point_move, one_point_move, two_opt_move], flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)    
+function tsp_ep_all(
+    x_coordinates, 
+    y_coordinates, 
+    truck_cost_factor, 
+    drone_cost_factor; 
+    local_search_methods=[two_point_move, one_point_move, two_opt_move], 
+    flying_range=MAX_DRONE_RANGE, 
+    time_limit=MAX_TIME_LIMIT
+)    
     """
     Runs `TSP-ep-all` heuristic algorithm of Agatz et al.
 
@@ -133,17 +141,25 @@ function tsp_ep_all(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_
 end
 
 
-function tsp_ep_all(Ct, Cd, init_tour; local_search_methods=[two_point_move, one_point_move, two_opt_move], flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)   
+function tsp_ep_all(
+    Ct, 
+    Cd, 
+    init_tour; 
+    local_search_methods=[two_point_move, one_point_move, two_opt_move], 
+    flying_range=MAX_DRONE_RANGE, 
+    time_limit=MAX_TIME_LIMIT
+)   
     n, _ = size(Ct)
 
     improved = true
     best_obj, t_route, d_route = exact_partitioning(init_tour, Ct, Cd, flying_range=flying_range) 
+
     best_tour = copy(init_tour)
     best_t_route = copy(t_route)
     best_d_route = copy(d_route)
 
     if isempty(local_search_methods)
-        return best_obj
+        return best_obj, best_t_route, best_d_route
     end
 
     time0 = time()

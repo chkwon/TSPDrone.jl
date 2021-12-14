@@ -1,6 +1,10 @@
 using TSPDrone
 using Test
+include("../src/main.jl")
 
-@testset "TSPDrone.jl" begin
-    # Write your tests here.
-end
+include("test_instances.jl")
+checkTestInstances()
+
+# @testset "TSPDrone.jl" begin
+#     checkTestInstances()
+# end

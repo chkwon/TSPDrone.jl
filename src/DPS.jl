@@ -1,6 +1,13 @@
 
 # divide-partition-and-search (DPS) heuristic
-function divide_partition_search(x, y, truck_cost_factor, drone_cost_factor; n_groups=1, method="TSP-ep-all", local_search_methods=[two_point_move, one_point_move, two_opt_move], flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)
+function divide_partition_search(
+    x, y, 
+    truck_cost_factor, drone_cost_factor; 
+    n_groups=1, 
+    local_search_methods=[two_point_move, one_point_move, two_opt_move], 
+    flying_range=MAX_DRONE_RANGE, 
+    time_limit=MAX_TIME_LIMIT
+)
 
     time0 = time()
 
@@ -34,11 +41,9 @@ function divide_partition_search(x, y, truck_cost_factor, drone_cost_factor; n_g
         Ct_ = Ct[group_nodes, group_nodes]
         Cd_ = Cd[group_nodes, group_nodes]
         init_tour = collect(1:length(group_nodes))
-
-        # @show size(Ct_)
-        # @show init_tour
-
+    
         tspd_len, t_route_idx, d_route_idx = tsp_ep_all(Ct_, Cd_, init_tour; local_search_methods=local_search_methods, flying_range=flying_range, time_limit=time_limit_each_group)   
+        
         total_tspd_len += tspd_len
         append!(total_t_route, group_nodes[t_route_idx])
         append!(total_d_route, group_nodes[d_route_idx])
