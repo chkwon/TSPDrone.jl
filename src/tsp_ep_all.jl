@@ -2,7 +2,7 @@ function find_tsp_tour(x, y)
     scale_factor = 1000
     
     tsp_tour, tsp_tour_len = Concorde.solve_tsp(x * scale_factor, y * scale_factor; dist="EUC_2D")
-    # tsp_tour, tsp_tour_len = PyTSP.solve_TSP_Concorde(x * scale_factor, y * scale_factor; norm="EUC_2D")
+
     @assert tsp_tour[1] == 1
 
     return tsp_tour
@@ -33,45 +33,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=DRONE_RANGE)
                         end
                     end
                 end       
-                
-                # if method == "Poikonen"
-                #     # When truck remains stationary at i
-                #     # while drone visits all others one by one
-                #     Tv = Ct[r[i], r[j]] + 
-                #             2 * sum([Cd[r[i], r[v]] for v in i+1:j-1])
-                #     if Tv < T[i, j]
-                #         T[i, j] = Tv
-                #         M[r[i], r[j]] = -2
-                #     end
-
-                #     # (1) When truck remains stationary at i,
-                #     #     while drone visits i+1:z one by one.
-                #     # (2) Then, drone delivers to k and truck covers the rest.
-                #     for z in i+1:j-3
-                #         Tz = 2 * sum([Cd[r[i], r[v]] for v in i+1:z])
-
-                #         for k in z+1:j-1
-                #             Tk_d = Cd[r[i], r[k]] + Cd[r[k], r[j]]
-                            
-                #             if k == z+1 
-                #                 Tk_t = Ct[r[i], r[k+1]] + 
-                #                         sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
-                #             else
-                #                 Tk_t = Ct[r[i], r[z+1]]  +
-                #                         sum([Ct[r[l], r[l+1]] for l in z+1:k-2]) +
-                #                         Ct[r[k-1], r[k+1]] + 
-                #                         sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
-                #             end
-                #             Tzk = Tz + max(Tk_d, Tk_t)
-                #             if Tzk < T[i, j]
-                #                 T[i, j] = Tzk
-                #                 M[r[i], r[j]] = r[k]
-                #             end
-                #         end
-                        
-                #     end         
-                
-                # end # end of Poikonen   
+                  
             end
         end
     end
@@ -149,16 +111,16 @@ end
 
 
 # Main function to call
-function tsp_ep_all(x_coordinates, y_coordinates, speed_truck, speed_drone; local_search_methods=[two_point_move, one_point_move, two_opt_move], flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)    
+function tsp_ep_all(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor; local_search_methods=[two_point_move, one_point_move, two_opt_move], flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)    
     """
     Runs `TSP-ep-all` heuristic algorithm of Agatz et al.
 
     `x_coordinates[1]`, `y_coordinates[1]`: the coordinates of the depot, then followed by all customer location coordinates
-    `speed_truck`: as defined in Agatz et al. instances
-    `speed_drone`: as defined in Agatz et al. instances
+    `truck_cost_factor`: as defined in Agatz et al. instances
+    `drone_cost_factor`: as defined in Agatz et al. instances
     """
 
-    Ct, Cd = distance_matrices(x_coordinates, y_coordinates, speed_truck, speed_drone)
+    Ct, Cd = distance_matrices(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor)
     n_nodes = length(x_coordinates)
     n1, n2 = size(Ct)
     @assert n_nodes + 1 == n1

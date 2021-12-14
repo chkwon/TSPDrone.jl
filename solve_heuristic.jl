@@ -9,8 +9,8 @@ DRONE_RANGE = Inf
 
 function test_new_data(dir_name, n; method="TSP-ep-all", n_groups=1, flying_range=DRONE_RANGE, time_limit=MAX_TIME_LIMIT)
 
-    speed_truck = 1
-    speed_drone = 0.5
+    truck_cost_factor = 1
+    drone_cost_factor = 0.5
 
     filename = joinpath(@__DIR__, "InstancesSolutions/$(dir_name)/Concorde-TSP-len-100-n_nodes-$(n).txt")
     f = open(filename, "r")
@@ -25,7 +25,7 @@ function test_new_data(dir_name, n; method="TSP-ep-all", n_groups=1, flying_rang
         mat = reshape(data, 2, :)
         x = mat[1, :]
         y = mat[2, :]
-        obj, _, _ = solve_tspd(x, y, speed_truck, speed_drone, flying_range=flying_range, method=method, n_groups=n_groups, time_limit=time_limit)
+        obj, _, _ = solve_tspd(x, y, truck_cost_factor, drone_cost_factor, flying_range=flying_range, method=method, n_groups=n_groups, time_limit=time_limit)
         push!(objs, obj)
     end
     t1 = time()
