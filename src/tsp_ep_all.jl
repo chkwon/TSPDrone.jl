@@ -1,4 +1,16 @@
-function find_tsp_tour(x, y)
+function find_tsp_tour(Ct::Matrix{Float64})
+    scale_factor = 1000
+    dist_mtx = round.(Int, Ct .* scale_factor)
+    
+    tsp_tour, tsp_tour_len = Concorde.solve_tsp(dist_mtx)
+
+    @assert tsp_tour[1] == 1
+
+    return tsp_tour
+end
+
+
+function find_tsp_tour(x::Vector{Float64}, y::Vector{Float64})
     scale_factor = 1000
     
     tsp_tour, tsp_tour_len = Concorde.solve_tsp(x * scale_factor, y * scale_factor; dist="EUC_2D")

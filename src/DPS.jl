@@ -1,23 +1,22 @@
 
 # divide-partition-and-search (DPS) heuristic
 function divide_partition_search(
-    x, y, 
-    truck_cost_factor, drone_cost_factor; 
-    n_groups=1, 
-    local_search_methods=[two_point_move, one_point_move, two_opt_move], 
-    flying_range=MAX_DRONE_RANGE, 
-    time_limit=MAX_TIME_LIMIT
+    Ct::Matrix{Float64},
+    Cd::Matrix{Float64};
+    n_groups::Int = 1, 
+    local_search_methods::Vector{Function} = Function[two_point_move, one_point_move, two_opt_move], 
+    flying_range::Float64 = MAX_DRONE_RANGE, 
+    time_limit::Float64 = MAX_TIME_LIMIT
 )
 
     time0 = time()
 
-    Ct, Cd = distance_matrices(x, y, truck_cost_factor, drone_cost_factor)
-    n_nodes = length(x)
     n1, n2 = size(Ct)
-    @assert n_nodes + 1 == n1
+    n_nodes = n1 - 1
+
     @assert size(Ct) == size(Cd)
 
-    tsp_tour = find_tsp_tour(x, y)
+    tsp_tour = find_tsp_tour(Ct[1:end-1, 1:end-1])
     push!(tsp_tour, n_nodes+1) # adding the final depot
 
     total_tspd_len = 0.0

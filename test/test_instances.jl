@@ -4,7 +4,7 @@ function checkTestInstances(dir_name; method="TSP-ep-all", n_groups=1, flying_ra
 
     n = parse(Int, match(r"[0-9]+", dir_name).match)
 
-    truck_cost_factor = 1
+    truck_cost_factor = 1.0
     drone_cost_factor = 0.5
 
     filename = joinpath(@__DIR__, "../TestInstances/$(dir_name)/TSPD_n$(n)_instances.txt")
@@ -85,18 +85,30 @@ end
 
 function checkTestInstances()
 
-    available_methods = ["TSP-ep", "TSP-ep-1p", "TSP-ep-2p", "TSP-ep-2opt", "TSP-ep-all"]
-    for m in available_methods
-        checkTestInstances("n11"; n_groups=1, method=m, time_limit=10)
+    @testset verbose = true "TSP-ep methods for n11" begin
+        available_methods = ["TSP-ep", "TSP-ep-1p", "TSP-ep-2p", "TSP-ep-2opt", "TSP-ep-all"]
+        for m in available_methods
+            @testset "$m" begin
+                checkTestInstances("n11"; n_groups=1, method=m, time_limit=10.0)
+            end
+        end
+    end 
+
+    instances = Dict(
+        "n20float" => 2,
+        "n50float" => 5,
+        "n100float" => 10
+    )
+
+    for (name, n_groups) in instances 
+        @testset verbose = true "DPS for $name" begin
+            checkTestInstances(name; n_groups=n_groups, time_limit=1000.0)
+        end
     end
 
-    checkTestInstances("n20float"; n_groups=2, time_limit=1000)
 
-    checkTestInstances("n50float"; n_groups=5, time_limit=1000)
-
-    checkTestInstances("n100float"; n_groups=10, time_limit=1000)
-
-
-    checkTestInstances("n11"; n_groups=1, method="TSP-ep-all", time_limit=10, flying_range=50)
+    @testset verbose = true "Flying range" begin
+        checkTestInstances("n11"; n_groups=1, method="TSP-ep-all", time_limit=10.0, flying_range=50.0)
+    end
 
 end

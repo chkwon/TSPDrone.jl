@@ -1,1 +1,9 @@
 /Manifest.toml
+
+
+# TSPLIB temporary files
+*.mas
+*.pul 
+*.sav 
+*.sol 
+*.tsp
