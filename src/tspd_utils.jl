@@ -1,5 +1,5 @@
 
-function _distance_matrices(x, y, speed_of_truck, speed_of_drone)
+function _cost_matrices_with_dummy(x, y, speed_of_truck, speed_of_drone)
     n_nodes = length(x)
     @assert length(x) == length(y)
 
@@ -16,12 +16,12 @@ function _distance_matrices(x, y, speed_of_truck, speed_of_drone)
     return Ct, Cd
 end
 
-function distance_matrices(x, y, speed_of_truck, speed_of_drone)
+function cost_matrices_with_dummy(x, y, speed_of_truck, speed_of_drone)
     xx = copy(x)
     yy = copy(y)
     push!(xx, x[1])
     push!(yy, y[1])
-    return _distance_matrices(xx, yy, speed_of_truck, speed_of_drone)
+    return _cost_matrices_with_dummy(xx, yy, speed_of_truck, speed_of_drone)
 end
 
 

@@ -140,7 +140,7 @@ function tsp_ep_all(
     `drone_cost_factor`: as defined in Agatz et al. instances
     """
 
-    Ct, Cd = distance_matrices(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor)
+    Ct, Cd = cost_matrices_with_dummy(x_coordinates, y_coordinates, truck_cost_factor, drone_cost_factor)
     n_nodes = length(x_coordinates)
     n1, n2 = size(Ct)
     @assert n_nodes + 1 == n1

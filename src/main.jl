@@ -37,20 +37,30 @@ function solve_tspd(
 
 
     local_search_methods = local_search_functions(method)
-    Ct, Cd = distance_matrices(x, y, truck_cost_factor, drone_cost_factor)
+    Ct, Cd = cost_matrices_with_dummy(x, y, truck_cost_factor, drone_cost_factor)
 
     return divide_partition_search(Ct, Cd; local_search_methods=local_search_methods, n_groups=n_groups, flying_range=flying_range, time_limit=time_limit)
 end
 
 
 function solve_tspd(
-    Ct::Matrix{Float64}, 
-    Cd::Matrix{Float64};
+    truck_cost_mtx::Matrix{Float64}, 
+    drone_cost_mtx::Matrix{Float64};
     n_groups::Int = 1, 
     method::String = "TSP-ep-all", 
     flying_range::Float64 = MAX_DRONE_RANGE, 
     time_limit::Float64 = MAX_TIME_LIMIT
 )
+
+    Ct = [
+        truck_cost_mtx          truck_cost_mtx[:, 1];
+        truck_cost_mtx[1, :]'    0.0
+    ]
+
+    Cd = [
+        drone_cost_mtx          drone_cost_mtx[:, 1];
+        drone_cost_mtx[1, :]'    0.0
+    ]
 
     local_search_methods = local_search_functions(method)
 
