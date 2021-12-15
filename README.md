@@ -41,6 +41,11 @@ drone_cost_mtx = truck_cost_mtx .* 0.5
 sol, tr, dr = solve_tspd(truck_cost_mtx, drone_cost_mtx)
 @assert size(truck_cost_mtx) == size(drone_cost_mtx) == (n, n)
 ```
+returns
+```
+(3.268788924769125, [1, 5, 2, 6, 4, 7, 3, 11], [1, 10, 6, 8, 4, 9, 3, 11])
+```
+where again node `11` represets the depot as the final destination.
 
 # Options for DPS 
 Optional keyword arguments for `solve_tspd`:
