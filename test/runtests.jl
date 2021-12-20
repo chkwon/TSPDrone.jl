@@ -21,7 +21,7 @@ include("test_instances.jl")
             @show obj1, tr1, dr1
             @show obj2, tr2, dr2
 
-            @test obj1 == obj2 
+            @test obj1 ≈ obj2 
             # @test tr1 == tr2 
             # @test dr1 == dr2 
         end
