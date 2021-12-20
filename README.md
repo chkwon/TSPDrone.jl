@@ -10,6 +10,11 @@ This package solves the Traveling Salesman Problem with Drone (TSP-D) with 1 tru
 
 The DPS algorithm is based on the TSP-ep-all algorithm of [Agatz et al. (2018)](https://doi.org/10.1287/trsc.2017.0791) and the divide-and-conquer heuristic of [Poikonen et al. (2019)](https://doi.org/10.1287/ijoc.2018.0826).
 
+# Install
+
+```julia
+] add https://github.com/chkwon/TSPDrone.jl
+```
 
 # Usage
 
