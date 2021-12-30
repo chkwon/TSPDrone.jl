@@ -2,6 +2,7 @@
 using Concorde
 using Statistics
 using Match
+using PyCall
 
 const MAX_TIME_LIMIT = Inf
 const MAX_DRONE_RANGE = Inf
@@ -10,7 +11,7 @@ const MAX_DRONE_RANGE = Inf
 include("tspd_utils.jl")
 include("tsp_ep_all.jl")
 include("DPS.jl")
-
+include("PythonRL/wrapper.jl")
 
 function local_search_functions(method::String)
     local_search_methods = Function[two_point_move, one_point_move, two_opt_move]
