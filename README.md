@@ -14,7 +14,7 @@ If you use either the DPS algorithm or the DRL method, pleaes cite:
 ```
 @misc{bogyrbayeva2021deep,
       title={A Deep Reinforcement Learning Approach for Solving the Traveling Salesman Problem with Drone}, 
-      author={Aigerim Bogyrbayeva. Taehyun Yoon and Hanbum Ko and Sungbin Lim and Hyokun Yun and Changhyun Kwon},
+      author={Aigerim Bogyrbayeva and Taehyun Yoon and Hanbum Ko and Sungbin Lim and Hyokun Yun and Changhyun Kwon},
       year={2021},
       eprint={2112.12545},
       archivePrefix={arXiv},
