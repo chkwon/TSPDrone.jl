@@ -45,14 +45,15 @@ julia> using TSPDrone
 julia> TSPDrone.test_RL()
 ```
 which should not generate errors.
-If it does not work properly, check if you are connected with a proper Python installation:
+If it does not work properly, check if you are connected with a proper Python installation. 
+For example:
 ```
 julia> using PyCall
 julia> PyCall.python
 "/usr/local/bin/python3"
 julia> PyCall.pyversion
 v"3.9.7"
-
+```
 
 
 # Using the Divide-Partition-and-Search (DPS) Algorithm
