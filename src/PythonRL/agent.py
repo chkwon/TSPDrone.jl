@@ -21,8 +21,8 @@ class A2CAgent(object):
      
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
-        out_file = open(os.path.join(dir_path, args['log_dir'], 'results.txt'),'w+') 
-        self.prt = printOut(out_file,args['stdout_print'])
+        # out_file = open(os.path.join(dir_path, args['log_dir'], 'results.txt'),'w+') 
+        # self.prt = printOut(out_file,args['stdout_print'])
         # print("agent is initialized")
         
 
@@ -32,7 +32,7 @@ class A2CAgent(object):
         actor  = self.actor
         device = self.device
      
-        prt = self.prt 
+        # prt = self.prt 
         n = 0
         actor.eval()
         
@@ -97,22 +97,22 @@ class A2CAgent(object):
                 time_step += 1
                 sols.append([idx_truck[n], idx_drone[n]])
                 costs.append(env.time_step[n])
-                prt.print_out("{}: {}".format("idx_truck", idx_truck[n]))
-                prt.print_out("{}: {}".format("idx_drone", idx_drone[n]))
-     #           prt.print_out("{}: {}".format("comb check", env.combined_check[n]))
-                prt.print_out("{}: {}".format("time_step", env.time_step[n]))
-                prt.print_out("{}: {}".format("current_time",env.current_time[n]))
-                prt.print_out("{}: {}".format("truck_loc", env.truck_loc[n]))
-                prt.print_out("{}: {}".format("drone_loc", env.drone_loc[n]))
-     #           prt.print_out("{}: {}".format("comb nodes", env.combined_nodes[n]))
-                prt.print_out("{}: {}".format("time_vec_truck", time_vec_truck[n]))
-                prt.print_out("{}: {}".format("time_vec_drone", time_vec_drone[n]))
-                prt.print_out("{}: {}".format("state", env.state[n]))
-        #        prt.print_out("{}: {}".format("p", env.p[n]))
-                prt.print_out("{}: {}".format("avail_actions", avail_actions[n]))
-                prt.print_out("{}: {}".format("terminated", terminated[n]))
-                prt.print_out("{}: {}".format("sortie", env.sortie[n]))
-                prt.print_out("{}: {}".format("returned", env.returned[n]))
+    #             prt.print_out("{}: {}".format("idx_truck", idx_truck[n]))
+    #             prt.print_out("{}: {}".format("idx_drone", idx_drone[n]))
+    #  #           prt.print_out("{}: {}".format("comb check", env.combined_check[n]))
+    #             prt.print_out("{}: {}".format("time_step", env.time_step[n]))
+    #             prt.print_out("{}: {}".format("current_time",env.current_time[n]))
+    #             prt.print_out("{}: {}".format("truck_loc", env.truck_loc[n]))
+    #             prt.print_out("{}: {}".format("drone_loc", env.drone_loc[n]))
+    #  #           prt.print_out("{}: {}".format("comb nodes", env.combined_nodes[n]))
+    #             prt.print_out("{}: {}".format("time_vec_truck", time_vec_truck[n]))
+    #             prt.print_out("{}: {}".format("time_vec_drone", time_vec_drone[n]))
+    #             prt.print_out("{}: {}".format("state", env.state[n]))
+    #     #        prt.print_out("{}: {}".format("p", env.p[n]))
+    #             prt.print_out("{}: {}".format("avail_actions", avail_actions[n]))
+    #             prt.print_out("{}: {}".format("terminated", terminated[n]))
+    #             prt.print_out("{}: {}".format("sortie", env.sortie[n]))
+    #             prt.print_out("{}: {}".format("returned", env.returned[n]))
             
         R = copy.copy(env.current_time)
         costs.append(env.current_time[n])
@@ -143,7 +143,7 @@ class A2CAgent(object):
         env = self.env 
         actor  = self.actor
      
-        prt = self.prt 
+        # prt = self.prt 
         n = 0
         actor.eval()
         actor.set_sample_mode(True)
