@@ -28,7 +28,7 @@ function test_RL()
     results = zeros(length(sizes), 3)
     for i in 1:length(sizes)
         @info "Testing n = $(sizes[i]) / DPS: n_groups = $(n_groups[i]) /  RL: n_samples = $n_samples"
-        results[i, :] = solve_tspd_RL_test(sizes[i], n_groups[i], n_samples)
+        results[i, :] .= solve_tspd_RL_test(sizes[i], n_groups[i], n_samples)
     end
 end
 
