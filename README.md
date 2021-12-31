@@ -120,6 +120,7 @@ For training, the followings were used:
 - The x,y coordinate of the depot is uniformly distributed in `[0, 1]`.
 - The x,y coordinates of the customers are uniformly distributed in `[0, 100]`.
 - `truck_cost_factor = 1.0` and `drone_cost_factor = 0.5`.
+- The drone fyling range is ∞.
 
 For example, 
 ```julia
