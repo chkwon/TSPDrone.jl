@@ -4,11 +4,23 @@
 [![Build Status](https://github.com/chkwon/TSPDrone.jl/workflows/CI/badge.svg?branch=master)](https://github.com/chkwon/TSPDrone.jl/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/chkwon/TSPDrone.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/chkwon/TSPDrone.jl)
 
-This package solves the Traveling Salesman Problem with Drone (TSP-D) with 1 truck and 1 drone. This implements the Divide-Partition-and-Search (DPS) algorithm and the Deep Reinforcement Learning method as proposed in the following paper:
+This package solves the Traveling Salesman Problem with Drone (TSP-D) with 1 truck and 1 drone. This implements the Divide-Partition-and-Search (DPS) algorithm and the Deep Reinforcement Learning (DRL) method as proposed in the following paper:
 
-* Bogyrbaeyeva A., T. Yoon, H. Ko, S. Lim, H. Yun, and C. Kwon, A Deep Reinforcement Learning Approach for Solving the Traveling Salesman Problem with Drone, working paper. 
+* [Bogyrbaeyeva A., T. Yoon, H. Ko, S. Lim, H. Yun, and C. Kwon, A Deep Reinforcement Learning Approach for Solving the Traveling Salesman Problem with Drone, working paper](https://arxiv.org/abs/2112.12545). 
 
 The DPS algorithm is based on the TSP-ep-all algorithm of [Agatz et al. (2018)](https://doi.org/10.1287/trsc.2017.0791) and the divide-and-conquer heuristic of [Poikonen et al. (2019)](https://doi.org/10.1287/ijoc.2018.0826).
+
+If you use either the DPS algorithm or the DRL method, pleaes cite:
+```
+@misc{bogyrbayeva2021deep,
+      title={A Deep Reinforcement Learning Approach for Solving the Traveling Salesman Problem with Drone}, 
+      author={Aigerim Bogyrbayeva. Taehyun Yoon and Hanbum Ko and Sungbin Lim and Hyokun Yun and Changhyun Kwon},
+      year={2021},
+      eprint={2112.12545},
+      archivePrefix={arXiv},
+      primaryClass={math.OC}
+}
+```
 
 # Install
 
