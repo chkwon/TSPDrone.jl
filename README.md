@@ -32,7 +32,12 @@ If you want just the DPS algorithm, the above will be sufficient.
 
 If you also want to use the DRL method, you need to set up your Python and PyTorch installations. 
 Suppose your Python installation is located at `/usr/local/bin/python3`.
-First, make sure that this particular Python has `torch`, `numpy`, and `scipy` packages; if not, please install them.
+First, make sure that this particular Python has `torch`, `numpy`, and `scipy` packages; if not, please install them. 
+For example:
+```
+python3 -m pip install torch numpy scipy
+```
+
 In Julia:
 ```
 julia> ENV["PYTHON"] = "/usr/local/bin/python3"
@@ -47,7 +52,7 @@ julia> using TSPDrone
 julia> TSPDrone.test_RL()
 ```
 which should not generate errors.
-If it does not work properly, check if you are connected with a proper Python installation. 
+If it does not work properly, check if your Julia is connected with a proper Python installation. 
 For example:
 ```
 julia> using PyCall
@@ -56,7 +61,7 @@ julia> PyCall.python
 julia> PyCall.pyversion
 v"3.9.7"
 ```
-If it does not who the Python installation you like, try the above process again.
+If it does not use the Python installation you like, try the above process again.
 
 
 # Using the Divide-Partition-and-Search (DPS) Algorithm
