@@ -54,7 +54,7 @@ julia> PyCall.python
 julia> PyCall.pyversion
 v"3.9.7"
 ```
-If it does not who the Python installation you like, repeat the above process again.
+If it does not who the Python installation you like, try the above process again.
 
 
 # Using the Divide-Partition-and-Search (DPS) Algorithm
@@ -150,7 +150,12 @@ In a sample run, the outcome was:
 ```
 In the truck and drone routes, both node 1 and node 12 refers to the depot. 
 
+## Options for DRL
+```julia
+obj, truck_route, drone_route = solve_tspd_RL(x_coordinates, y_coordinates; n_samples = 100, device = "cpu")
+```
+
 If `n_samples = 1` or not provided, it will use the greedy decoding.
 If `n_samples > 1`, then it will generate multiple samples and return the best result.
 
-
+You can also pass `device`. The default is `device = "cpu"`, but if you have a GPU, then you can also pass the device name, so that `torch` can run on the GPU. 
