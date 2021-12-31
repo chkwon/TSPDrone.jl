@@ -1,6 +1,6 @@
 
 
-
+include("test_RL.jl")
 
 function solve_tspd_RL(x::Vector{Float64}, y::Vector{Float64}; n_samples=1, device="cpu")
     supported_sizes = [11, 15, 20, 50, 100]
@@ -42,3 +42,5 @@ function solve_tspd_RL(x::Vector{Float64}, y::Vector{Float64}; n_samples=1, devi
 
     return obj, route_t, route_d
 end
+
+
