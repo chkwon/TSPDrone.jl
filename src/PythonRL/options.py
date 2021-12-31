@@ -48,7 +48,7 @@ def ParseParams():
     args, unknown = parser.parse_known_args()
     args = vars(args)
     
-    for key, value in sorted(args.items()):
-        print("{}: {}".format(key,value))
+    # for key, value in sorted(args.items()):
+    #     print("{}: {}".format(key,value))
     
     return args 

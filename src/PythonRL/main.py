@@ -10,14 +10,14 @@ from AttentionModel import AttentionModel
 import time
 
 def check(x, y, n_samples, dev):
-    print(x)
+    # print(x)
     return  0
 
 def main(x, y, n_samples, dev, decode_len):
     args = ParseParams()   
     random_seed = args['random_seed']
-    if random_seed is not None and random_seed > 0:
-        print("# Set random seed to %d" % random_seed)
+    # if random_seed is not None and random_seed > 0:
+    #     print("# Set random seed to %d" % random_seed)
     np.random.seed(random_seed)
     random.seed(random_seed)
     torch.manual_seed(random_seed)
@@ -43,7 +43,7 @@ def main(x, y, n_samples, dev, decode_len):
             path = os.path.join(dir_path, save_path, 'n' + str(n_nodes), 'best_model_critic_params.pkl')
 
             critic.load_state_dict(torch.load(path, map_location='cpu'))
-            print("Succesfully loaded keys")
+            # print("Succesfully loaded keys")
         else: 
             raise Exception("No trained neural net for n_nodes = " + str(n_nodes))
     

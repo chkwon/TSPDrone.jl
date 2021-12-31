@@ -41,7 +41,7 @@ class printOut(object):
 
         # stdout
         if self.stdout_print:
-            print(s, end="", file=sys.stdout)
+            # print(s, end="", file=sys.stdout)
             if new_line:
                 sys.stdout.write("\n")
             sys.stdout.flush()

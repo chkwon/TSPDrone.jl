@@ -23,7 +23,7 @@ class A2CAgent(object):
 
         out_file = open(os.path.join(dir_path, args['log_dir'], 'results.txt'),'w+') 
         self.prt = printOut(out_file,args['stdout_print'])
-        print("agent is initialized")
+        # print("agent is initialized")
         
 
     def test(self, data):
@@ -116,7 +116,7 @@ class A2CAgent(object):
             
         R = copy.copy(env.current_time)
         costs.append(env.current_time[n])
-        print("finished: ", sum(terminated))
+        # print("finished: ", sum(terminated))
        
         sols = np.array(sols)
         
@@ -219,8 +219,8 @@ class A2CAgent(object):
                     
             
             R = copy.copy(env.current_time)
-            print("R: ", R)
-            print('sols', sols)
+            # print("R: ", R)
+            # print('sols', sols)
             best_rewards = R.min(axis=0)
             idx = np.argmin(R, axis=0)
             best_sols = sols[idx]

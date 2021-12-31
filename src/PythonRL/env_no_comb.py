@@ -17,7 +17,7 @@ class Env(object):
         self.v_t = args['v_t']
         self.v_d = args['v_d']
         self.batch_size = data.shape[0]
-        print("Using Not revisiting nodes")
+        # print("Using Not revisiting nodes")
        
     def reset(self):
         self.batch_size = self.input_data[:, :, :2].shape[0]
