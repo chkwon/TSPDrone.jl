@@ -54,6 +54,7 @@ julia> PyCall.python
 julia> PyCall.pyversion
 v"3.9.7"
 ```
+If it does not who the Python installation you like, repeat the above process again.
 
 
 # Using the Divide-Partition-and-Search (DPS) Algorithm
