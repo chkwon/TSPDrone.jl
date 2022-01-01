@@ -28,7 +28,7 @@ If you use either the DPS algorithm or the DRL method, pleaes cite:
 ] add https://github.com/chkwon/TSPDrone.jl
 ```
 
-If you want just the DPS algorithm, the above will be sufficient. 
+If you want just the DPS algorithm, the above will be sufficient. Skip the rest.
 
 If you also want to use the DRL method, you need to set up your Python and PyTorch installations. 
 Suppose your Python installation is located at `/usr/local/bin/python3`.
