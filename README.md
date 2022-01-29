@@ -13,12 +13,12 @@ The DPS algorithm is based on the TSP-ep-all algorithm of [Agatz et al. (2018)](
 If you use either the DPS algorithm or the DRL method, pleaes cite:
 ```
 @misc{bogyrbayeva2021deep,
-      title={A Deep Reinforcement Learning Approach for Solving the Traveling Salesman Problem with Drone}, 
-      author={Aigerim Bogyrbayeva and Taehyun Yoon and Hanbum Ko and Sungbin Lim and Hyokun Yun and Changhyun Kwon},
-      year={2021},
-      eprint={2112.12545},
-      archivePrefix={arXiv},
-      primaryClass={math.OC}
+  title={A Deep Reinforcement Learning Approach for Solving the Traveling Salesman Problem with Drone}, 
+  author={Aigerim Bogyrbayeva and Taehyun Yoon and Hanbum Ko and Sungbin Lim and Hyokun Yun and Changhyun Kwon},
+  year={2021},
+  eprint={2112.12545},
+  archivePrefix={arXiv},
+  primaryClass={math.OC}
 }
 ```
 
@@ -34,27 +34,27 @@ If you also want to use the DRL method, you need to set up your Python and PyTor
 Suppose your Python installation is located at `/usr/local/bin/python3`.
 First, make sure that this particular Python has `torch`, `numpy`, and `scipy` packages; if not, please install them. 
 For example:
-```
+```console
 python3 -m pip install torch numpy scipy
 ```
 
 In Julia:
-```
+```julia
 julia> ENV["PYTHON"] = "/usr/local/bin/python3"
 ```
 Then
-```
+```julia
 julia> import Pkg; Pkg.build("PyCall")
 ```
 Test if everything works fine:
-```
+```julia
 julia> using TSPDrone
 julia> TSPDrone.test_RL()
 ```
 which should not generate errors.
 If it does not work properly, check if your Julia is connected with a proper Python installation. 
 For example:
-```
+```julia
 julia> using PyCall
 julia> PyCall.python
 "/usr/local/bin/python3"
