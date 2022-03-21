@@ -30,17 +30,23 @@ def main(x, y, n_samples, dev, decode_len):
     actor = Actor(args['hidden_dim'], mode='drone', dev=dev)
     critic = Critic(args['hidden_dim'], dev)
     n_nodes = len(x)
+
+    if x[-1] <= 1 and y[-1] <= 1:
+        depot_type = "corner_depot"
+    else:
+        depot_type = "uniform_depot"
+
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     else:
         dir_path = os.path.dirname(os.path.realpath(__file__))
         # path = "src/PythonRL/" + save_path +'n' +str(n_nodes) + '/best_model_actor_truck_params.pkl'
-        path = os.path.join(dir_path, save_path, 'n' + str(n_nodes), 'best_model_actor_truck_params.pkl')
+        path = os.path.join(dir_path, save_path, depot_type, 'n' + str(n_nodes), 'best_model_actor_truck_params.pkl')
 
         if os.path.exists(path):
             actor.load_state_dict(torch.load(path, map_location='cpu'))
             # path = "src/PythonRL/" + save_path +'n' +str(n_nodes) + '/best_model_critic_params.pkl'
-            path = os.path.join(dir_path, save_path, 'n' + str(n_nodes), 'best_model_critic_params.pkl')
+            path = os.path.join(dir_path, save_path, depot_type, 'n' + str(n_nodes), 'best_model_critic_params.pkl')
 
             critic.load_state_dict(torch.load(path, map_location='cpu'))
             # print("Succesfully loaded keys")
