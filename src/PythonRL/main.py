@@ -55,11 +55,20 @@ def main(x, y, n_samples, dev, decode_len):
         
     return obj, route_t, route_d
        
+if __name__ == "__main__":
+    x = np.random.randint(1, 10, 20)
+    y = np.random.randint(1, 10, 20)
+    dev = "cpu"
+    n_samples = 3
+    obj, route_t, route_d = main(x, y, n_samples, dev, 20)
+    print(obj)
+    print(route_t)
+    print(route_d)
+    print(dev)
 
-#x = [2, 3, 4, 7, 1, 3, 5, 6]
-#y = [4, 5, 6, 1, 4, 5, 7, 9]
-#dev = "cpu"
-#n_samples = 3
-#main(x, y, n_samples, dev)
-
-
+    dev = "cuda"
+    obj, route_t, route_d = main(x, y, n_samples, dev, 20)
+    print(obj)
+    print(route_t)
+    print(route_d)
+    print(dev)
