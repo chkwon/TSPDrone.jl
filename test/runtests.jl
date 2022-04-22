@@ -3,6 +3,7 @@ using Test, Statistics
 # include("../src/main.jl")
 
 include("test_instances.jl")
+include("test_RL.jl")
 
 @testset verbose = true "TSPDrone.jl" begin
 
@@ -29,6 +30,13 @@ include("test_instances.jl")
 
     @testset verbose = true "Test Instances" begin
         checkTestInstances()
+    end
+
+
+    @testset verbose = true "Test RL" begin 
+        @pyimport pip
+        pip.main(["install", "numpy", "torch"])
+        test_RL()
     end
 
 end

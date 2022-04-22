@@ -221,6 +221,7 @@ class Actor(nn.Module):
         if self.mask_logits:
             logits[avail_actions==0] = -self.Bignumber
         
+        # logprobs = self.logsoft(logits)
         logprobs = self.logsoft(logits)
         probs = torch.exp(logprobs)
   
