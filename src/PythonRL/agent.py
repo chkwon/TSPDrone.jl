@@ -95,7 +95,7 @@ class A2CAgent(object):
                 
                 state, avail_actions, ter, time_vec_truck, time_vec_drone = env.step(idx_truck.cpu().numpy(), idx_drone.cpu().numpy(), time_vec_truck, time_vec_drone, ter)
                 time_step += 1
-                sols.append([idx_truck[n], idx_drone[n]])
+                sols.append([idx_truck[n].cpu().numpy(), idx_drone[n].cpu().numpy()])
                 costs.append(env.time_step[n])
     #             prt.print_out("{}: {}".format("idx_truck", idx_truck[n]))
     #             prt.print_out("{}: {}".format("idx_drone", idx_drone[n]))
