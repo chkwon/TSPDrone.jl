@@ -187,20 +187,17 @@ class Actor(nn.Module):
         self.mask_logits = mask_logits 
         # Define the encoder & decoder models
         # for static x, y coords 
-        self.attention_encoder = AttentionModel(hidden_size, hidden_size, dev)
-        self.dynamic_d_ex = Encoder(1, hidden_size)
-        self.decoder = Decoder(hidden_size, mode, dev, num_layers, dropout)
-        if torch.cuda.is_available():
-            self.attention_encoder = self.attention_encoder.cuda()
-            self.dynamic_d_ex = self.dynamic_d_ex.cuda()
-            self.decoder = self.decoder.cuda()
-        self.logsoft = nn.LogSoftmax()
+        self.attention_encoder = AttentionModel(hidden_size, hidden_size, dev).to(dev)
+        self.dynamic_d_ex = Encoder(1, hidden_size).to(dev)
+        self.decoder = Decoder(hidden_size, mode, dev, num_layers, dropout).to(dev)
+        
+        self.logsoft = nn.LogSoftmax().to(dev)
         self.Bignumber = 100000
         self.sample_mode = False
 
         for p in self.parameters():
             if len(p.shape) > 1:
-                nn.init.xavier_uniform_(p)
+                nn.init.xavier_uniform_(p).to(dev)
                 
     def emd_stat(self, static):
         
