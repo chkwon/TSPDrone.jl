@@ -3,57 +3,38 @@ function print_summary(result::TSPDroneResult)
     println(report)
 end
 
+fmt(n) = n #round(n, digits=5)
+
 function generate_summary(result::TSPDroneResult)
-    return generate_summary(
-        result.truck_route, 
-        result.drone_route, 
-        result.Ct, 
-        result.Cd, 
-        flying_range=result.flying_range
-    )
-end
-
-function fmt(n)
-    # return round(n, digits=5)
-    return n
-end
-
-function generate_summary(
-    truck_route, 
-    drone_route,
-    Ct, 
-    Cd;
-    flying_range::Float64 = MAX_DRONE_RANGE
-)
-    combined_nodes = intersect(truck_route, drone_route)
+    combined_nodes = intersect(result.truck_route, result.drone_route)
     operations = [(combined_nodes[i], combined_nodes[i+1]) for i in 1:length(combined_nodes)-1]
 
-    summary = String[]
     op_costs = Float64[]
-
-    io = IOBuffer();
+    io = IOBuffer()
 
     for i in 1:length(operations)
         op = operations[i]
-        truck_length, truck_sub_route = operation_length(op[1], op[2], truck_route, Ct)
-        drone_length, drone_sub_route = operation_length(op[1], op[2], drone_route, Cd)
+        truck_length, truck_sub_route = 
+            operation_length(op[1], op[2], result.truck_route, result.Ct)
+        drone_length, drone_sub_route = 
+            operation_length(op[1], op[2], result.drone_route, result.Cd)
 
         op_length = max(truck_length, drone_length)
         push!(op_costs, op_length)
-
-        flying_range_pass = drone_length < flying_range ? "Pass" : "Fail!!!!"
 
         println(io, "Operation #$(i):")
         println(io, "  - Truck        = $(fmt(truck_length)) : $(truck_sub_route)")
         println(io, "  - Drone        = $(fmt(drone_length)) : $(drone_sub_route)")
         println(io, "  - Length       = $(fmt(op_length))")
-        if drone_length > flying_range
+        if drone_length > result.flying_range
             write(io, "  - flying_range : ")
             printstyled(io, "FAIL\n", color=:red)
         end
 
     end
 
+    @assert sum(op_costs) == result.total_cost
+    
     write(io, "Total Cost = $(fmt(sum(op_costs)))")
 
     report = String(take!(io))
