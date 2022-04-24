@@ -71,35 +71,66 @@ The depot should be the first element in `x` and `y`.
 
 Two parameters `truck_cost_factor` and `drone_cost_factor` will be multiplied to the Euclidean distance calculated from the coordinates. 
 ```julia 
+using TSPDrone
 n = 10 
 x = rand(n); y = rand(n);
 truck_cost_factor = 1.0 
 drone_cost_factor = 0.5
-objective_value, truck_route, drone_route = solve_tspd(x, y, truck_cost_factor, drone_cost_factor)
+result = solve_tspd(x, y, truck_cost_factor, drone_cost_factor)
+@show result.total_cost;
+@show result.truck_route;
+@show result.drone_route;
 ```
 returns
 ```
-(1.8835545178380921, [1, 5, 9, 3, 8, 7, 11], [1, 4, 5, 6, 8, 10, 7, 2, 11])
+result.total_cost = 1.640497825599171
+result.truck_route = [1, 2, 6, 7, 10, 8, 4, 11]
+result.drone_route = [1, 9, 6, 5, 7, 3, 11]
 ```
 where node `11` represents the depot as the final destination. 
 
 You can also provide the cost matrices of truck and drone directly.
 Again, the depot is labeled as `1`.
 ```julia
+using TSPDrone
 n = 10 
 dist_mtx = rand(n, n)
 dist_mtx = dist_mtx + dist_mtx' # symmetric distance only
 truck_cost_mtx = dist_mtx .* 1.0
 drone_cost_mtx = truck_cost_mtx .* 0.5 
-sol, tr, dr = solve_tspd(truck_cost_mtx, drone_cost_mtx)
+result = solve_tspd(truck_cost_mtx, drone_cost_mtx)
 @assert size(truck_cost_mtx) == size(drone_cost_mtx) == (n, n)
 ```
 returns
 ```
-(3.268788924769125, [1, 5, 2, 6, 4, 7, 3, 11], [1, 10, 6, 8, 4, 9, 3, 11])
+result.total_cost = 1.640497825599171
+result.truck_route = [1, 2, 6, 7, 10, 8, 4, 11]
+result.drone_route = [1, 9, 6, 5, 7, 3, 11]
 ```
 where again node `11` represets the depot as the final destination.
 
+## Summary of the Result
+Use `print_summary(result)`:
+```julia
+julia> print_summary(result)
+Operation #1:
+  - Truck        = 0.17988883875173492 : [1, 3]
+  - Drone        = 0.11900891950265155 : [1, 4, 3]
+  - Length       = 0.17988883875173492
+Operation #2:
+  - Truck        = 0.4784476248243221 : [3, 9]
+  - Drone        = 0.27587675362585756 : [3, 7, 9]
+  - Length       = 0.4784476248243221
+Operation #3:
+  - Truck        = 0.445749847855226 : [9, 6]
+  - Drone        = 0.48831605249544785 : [9, 10, 6]
+  - Length       = 0.48831605249544785
+Operation #4:
+  - Truck        = 0.9269158918021541 : [6, 5, 8, 11]
+  - Drone        = 0.8714473929102112 : [6, 2, 11]
+  - Length       = 0.9269158918021541
+Total Cost = 2.073568407873659
+```
 ## Options for DPS 
 Optional keyword arguments for `solve_tspd`:
 ```julia
@@ -149,18 +180,19 @@ y_coordinates = [depot_y; customers_y]
 @assert n == length(x_coordinates) == length(y_coordinates)
 
 using TSPDrone
-obj, truck_route, drone_route = solve_tspd_RL(x_coordinates, y_coordinates; n_samples = 100)
+result = solve_tspd_RL(x_coordinates, y_coordinates; n_samples = 100)
 ```
 
 In a sample run, the outcome was:
 ```
+(result.total_cost, result.truck_route, result.drone_route) = 
 (239.78793778400822, [1, 3, 8, 2, 11, 6, 7, 12], [1, 10, 3, 5, 8, 9, 6, 4, 12])
 ```
 In the truck and drone routes, both node 1 and node 12 refers to the depot. 
 
 ## Options for DRL
 ```julia
-obj, truck_route, drone_route = solve_tspd_RL(x_coordinates, y_coordinates; n_samples = 100, device = "cpu")
+result = solve_tspd_RL(x_coordinates, y_coordinates; n_samples = 100, device = "cpu")
 ```
 
 If `n_samples = 1` or not provided, it will use the greedy decoding.

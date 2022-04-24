@@ -1,4 +1,19 @@
 
+function cost_matrices_with_dummy(truck_cost_mtx, drone_cost_mtx)
+    Ct = [
+        truck_cost_mtx          truck_cost_mtx[:, 1];
+        truck_cost_mtx[1, :]'    0.0
+    ]
+
+    Cd = [
+        drone_cost_mtx          drone_cost_mtx[:, 1];
+        drone_cost_mtx[1, :]'    0.0
+    ]
+
+    return Ct, Cd
+end
+
+
 function _cost_matrices_with_dummy(x, y, speed_of_truck, speed_of_drone)
     n_nodes = length(x)
     @assert length(x) == length(y)

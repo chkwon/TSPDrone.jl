@@ -12,8 +12,11 @@ function solve_tspd_RL_test(n_nodes, n_groups, n_samples)
         # x = [0.8172268241831585, 73, 61, 44, 74, 23, 9, 51, 15, 9, 56]
         # y = [0.6284331187597952, 52, 46, 63, 15, 23, 80, 65, 97, 74, 84]
         
-        obj_DPS[i], _, _ = solve_tspd(x, y, 1.0, 0.5; n_groups=n_groups)
-        obj_RL[i], _, _ = solve_tspd_RL(x, y; n_samples=n_samples)
+        result1 = solve_tspd(x, y, 1.0, 0.5; n_groups=n_groups)
+        obj_DPS[i] = result1.total_cost
+
+        result2 = solve_tspd_RL(x, y; n_samples=n_samples)
+        obj_RL[i] = result2.total_cost
     end
     pct_gap = (mean(obj_RL) - mean(obj_DPS)) / mean(obj_DPS)
     @show mean(obj_DPS), mean(obj_RL), pct_gap
