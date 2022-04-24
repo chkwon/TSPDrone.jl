@@ -20,8 +20,8 @@ function checkTestInstances(dir_name; method="TSP-ep-all", n_groups=1, flying_ra
         mat = reshape(data, 2, :)
         x = mat[1, :]
         y = mat[2, :]
-        obj, _, _ = solve_tspd(x, y, truck_cost_factor, drone_cost_factor, flying_range=flying_range, method=method, n_groups=n_groups, time_limit=time_limit)
-        push!(objs, obj)
+        result = solve_tspd(x, y, truck_cost_factor, drone_cost_factor, flying_range=flying_range, method=method, n_groups=n_groups, time_limit=time_limit)
+        push!(objs, result.total_cost)
     end
     t1 = time()
     total_time = t1 - t0
@@ -105,7 +105,6 @@ function checkTestInstances()
             checkTestInstances(name; n_groups=n_groups, time_limit=1000.0)
         end
     end
-
 
     @testset verbose = true "Flying range" begin
         checkTestInstances("n11"; n_groups=1, method="TSP-ep-all", time_limit=10.0, flying_range=50.0)

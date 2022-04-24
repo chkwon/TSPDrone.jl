@@ -40,7 +40,11 @@ function solve_tspd_RL(x::Vector{Float64}, y::Vector{Float64}; n_samples=1, devi
     pushfirst!(route_t, 1)
     pushfirst!(route_d, 1)
 
-    return obj, route_t, route_d
+    # return obj, route_t, route_d
+
+    Ct, Cd = cost_matrices_with_dummy(x, y, 1.0, 0.5)
+    result = TSPDroneResult(obj, route_t, route_d, Ct, Cd, Inf)
+    return result
 end
 
 
