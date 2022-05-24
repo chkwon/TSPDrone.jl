@@ -21,9 +21,7 @@ include("test_instances.jl")
             @show result1.total_cost, result1.truck_route, result1.drone_route
             @show result2.total_cost, result2.truck_route, result2.drone_route
 
-            @test result1.total_cost ≈ result2.total_cost 
-            # @test tr1 == tr2 
-            # @test dr1 == dr2 
+            @test isapprox(result1.total_cost, result2.total_cost, atol=1e-5)
         end
     end
 

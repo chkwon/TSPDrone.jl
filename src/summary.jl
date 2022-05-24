@@ -33,7 +33,7 @@ function generate_summary(result::TSPDroneResult)
 
     end
 
-    @assert sum(op_costs) ≈ result.total_cost
+    @assert isapprox(sum(op_costs), result.total_cost; atol=1e-6)
     
     write(io, "Total Cost = $(fmt(sum(op_costs)))")
 
