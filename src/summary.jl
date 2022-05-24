@@ -17,7 +17,7 @@ function generate_summary(result::TSPDroneResult)
         truck_length, truck_sub_route = 
             operation_length(op[1], op[2], result.truck_route, result.Ct)
         drone_length, drone_sub_route = 
-            operation_length(op[1], op[2], result.drone_route, result.Cd)
+            operation_length(op[1], op[2], result.drone_route, result.Cd; is_drone=true)
 
         op_length = max(truck_length, drone_length)
         push!(op_costs, op_length)
@@ -33,7 +33,7 @@ function generate_summary(result::TSPDroneResult)
 
     end
 
-    @assert sum(op_costs) == result.total_cost
+    @assert sum(op_costs) ≈ result.total_cost
     
     write(io, "Total Cost = $(fmt(sum(op_costs)))")
 
@@ -42,15 +42,19 @@ function generate_summary(result::TSPDroneResult)
     return report
 end
 
-function operation_length(origin, destination, route, cost_mtx)
+function operation_length(origin, destination, route, cost_mtx; is_drone=false)
     o_idx = findfirst(x -> x == origin, route)
     d_idx = findfirst(x -> x == destination, route)
     sub_route = route[o_idx:d_idx]
 
     length = 0.0 
-    for i in o_idx:d_idx-1
-        length += cost_mtx[route[i], route[i+1]]
+    if is_drone && d_idx == o_idx + 1
+        # drone is moving on the truck, so the drone length = 0.0
+    else
+        for i in o_idx:d_idx-1
+            length += cost_mtx[route[i], route[i+1]]
+        end
     end
-    
+
     return length, sub_route   
 end
