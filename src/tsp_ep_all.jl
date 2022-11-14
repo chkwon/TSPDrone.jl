@@ -26,18 +26,27 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
     r = initial_tour
     T = fill(Inf, n, n)
     M = fill(-99, n, n)
-    for i in 1:n-1
-        for j in i+1:n
+    @inbounds for i in 1:n-1
+        @inbounds for j in i+1:n
             if j == i + 1 
                 T[i, j] = Ct[r[i], r[j]]
                 M[r[i], r[j]] = -1
             else
-                for k in i+1:j-1
+                @inbounds for k in i+1:j-1
                     Tk1 = Cd[r[i], r[k]] + Cd[r[k], r[j]]
                     if Tk1 <= flying_range
-                        Tk2 = sum([Ct[r[l], r[l+1]] for l in i:k-2]) + 
-                                Ct[r[k-1], r[k+1]] + 
-                                sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
+                        # Tk2 = sum([Ct[r[l], r[l+1]] for l in i:k-2]) + 
+                        #         Ct[r[k-1], r[k+1]] + 
+                        #         sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
+                        Tk2 = zero(typeof(Ct[1]))
+                        @inbounds for l in i:k-2
+                            Tk2 += Ct[r[l], r[l+1]]
+                        end
+                        @inbounds Tk2 += Ct[r[k-1], r[k+1]]
+                        @inbounds for l in k+1:j-1
+                            Tk2 += Ct[r[l], r[l+1]]
+                        end
+
                         Tk = max(Tk1, Tk2)
                         if Tk < T[i, j]
                             T[i, j] = Tk
@@ -54,7 +63,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
     P = fill(-1, n)
 
     V[1] = 0 
-    for i in 2:n 
+    @inbounds for i in 2:n 
         VV = [V[k] + T[k, i] for k in 1:i-1]
         V[i] = minimum(VV)
         P[i] = r[argmin(VV)]
@@ -73,7 +82,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
     drone_route = Int[]
     push!(drone_route, combined_nodes[1])
     @assert combined_nodes[1] == r[1]
-    for i in 1:length(combined_nodes)-1
+    @inbounds for i in 1:length(combined_nodes)-1
         j1 = combined_nodes[i]
         j2 = combined_nodes[i+1]
         if M[j1, j2] != -1 
