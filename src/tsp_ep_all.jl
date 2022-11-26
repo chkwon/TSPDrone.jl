@@ -35,14 +35,11 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
                 @inbounds for k in i+1:j-1
                     Tk1 = Cd[r[i], r[k]] + Cd[r[k], r[j]]
                     if Tk1 <= flying_range
-                        # Tk2 = sum([Ct[r[l], r[l+1]] for l in i:k-2]) + 
-                        #         Ct[r[k-1], r[k+1]] + 
-                        #         sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
                         Tk2 = zero(eltype(Ct))
                         @inbounds for l in i:k-2
                             Tk2 += Ct[r[l], r[l+1]]
                         end
-                        @inbounds Tk2 += Ct[r[k-1], r[k+1]]
+                        Tk2 += Ct[r[k-1], r[k+1]]
                         @inbounds for l in k+1:j-1
                             Tk2 += Ct[r[l], r[l+1]]
                         end
