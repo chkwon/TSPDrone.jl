@@ -1,5 +1,5 @@
 
-function cost_matrices_with_dummy(truck_cost_mtx, drone_cost_mtx)
+function cost_matrices_with_dummy(truck_cost_mtx::Matrix{Float64}, drone_cost_mtx::Matrix{Float64})
     Ct = [
         truck_cost_mtx          truck_cost_mtx[:, 1];
         truck_cost_mtx[1, :]'    0.0
@@ -14,7 +14,7 @@ function cost_matrices_with_dummy(truck_cost_mtx, drone_cost_mtx)
 end
 
 
-function _cost_matrices_with_dummy(x, y, speed_of_truck, speed_of_drone)
+function _cost_matrices_with_dummy(x::Vector{Float64}, y::Vector{Float64}, speed_of_truck::Float64, speed_of_drone::Float64)
     n_nodes = length(x)
     @assert length(x) == length(y)
 
@@ -31,7 +31,7 @@ function _cost_matrices_with_dummy(x, y, speed_of_truck, speed_of_drone)
     return Ct, Cd
 end
 
-function cost_matrices_with_dummy(x, y, speed_of_truck, speed_of_drone)
+function cost_matrices_with_dummy(x::Vector{Float64}, y::Vector{Float64}, speed_of_truck::Float64, speed_of_drone::Float64)
     xx = copy(x)
     yy = copy(y)
     push!(xx, x[1])
@@ -50,7 +50,7 @@ function travel_cost(path::Vector{Int}, C::Matrix{T}) where T
     return sum
 end
 
-function objective_value(truck_route, drone_route, Ct, Cd)
+function objective_value(truck_route::Vector{Int}, drone_route::Vector{Int}, Ct::Matrix{Float64}, Cd::Matrix{Float64})
     combined_nodes = intersect(truck_route, drone_route)
     obj_val = 0.0
     for i in 1:length(combined_nodes)-1

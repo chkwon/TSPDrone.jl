@@ -20,7 +20,12 @@ function find_tsp_tour(x::Vector{Float64}, y::Vector{Float64})
     return tsp_tour
 end
 
-function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
+function exact_partitioning(
+    initial_tour::Vector{Int}, 
+    Ct::Matrix{Float64}, 
+    Cd::Matrix{Float64}; 
+    flying_range=MAX_DRONE_RANGE
+)
     n, _ = size(Ct)
 
     r = initial_tour
@@ -98,7 +103,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
 end
 
 
-function two_point_move(tour, i, j)
+function two_point_move(tour::Vector{Int}, i::Int, j::Int)
     if i >= j 
         return tour, false
     end
@@ -109,14 +114,14 @@ function two_point_move(tour, i, j)
     return tmp, true
 end
 
-function one_point_move(tour, i, j)
+function one_point_move(tour::Vector{Int}, i::Int, j::Int)
     tmp = copy(tour)
     deleteat!(tmp, i)
     insert!(tmp, j, tour[i])
     return tmp, true
 end
 
-function two_opt_move(tour, i, j)
+function two_opt_move(tour::Vector{Int}, i::Int, j::Int)
     if i >= j 
         return tour, false
     end
@@ -130,10 +135,10 @@ end
 
 # Main function to call
 function tsp_ep_all(
-    x_coordinates, 
-    y_coordinates, 
-    truck_cost_factor, 
-    drone_cost_factor; 
+    x_coordinates::Vector{Float64}, 
+    y_coordinates::Vector{Float64}, 
+    truck_cost_factor::Float64, 
+    drone_cost_factor::Float64; 
     local_search_methods=[two_point_move, one_point_move, two_opt_move], 
     flying_range=MAX_DRONE_RANGE, 
     time_limit=MAX_TIME_LIMIT
@@ -160,9 +165,9 @@ end
 
 
 function tsp_ep_all(
-    Ct, 
-    Cd, 
-    init_tour; 
+    Ct::Matrix{Float64}, 
+    Cd::Matrix{Float64}, 
+    init_tour::Vector{Int}; 
     local_search_methods=[two_point_move, one_point_move, two_opt_move], 
     flying_range=MAX_DRONE_RANGE, 
     time_limit=MAX_TIME_LIMIT
