@@ -34,7 +34,7 @@ function check_operation_(r, T, M, i, j, k, Cd, SUM; flying_range=MAX_DRONE_RANG
     end
 end
 
-function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, complexity = 4)
+function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, complexity=4)
     n, _ = size(Ct)
 
     r = initial_tour
