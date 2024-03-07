@@ -20,41 +20,86 @@ function find_tsp_tour(x::Vector{Float64}, y::Vector{Float64})
     return tsp_tour
 end
 
+
+# Function to calculate the best operation for i -> j movement
+function check_operation_(r, T, M, i, j, k, Cd, SUM; flying_range=MAX_DRONE_RANGE)
+    Tk1 = Cd[r[i], r[k]] + Cd[r[k], r[j]]
+    if Tk1 <= flying_range
+        Tk2 = SUM[i, j, k]
+        Tk = max(Tk1, Tk2)
+        if Tk < T[i, j]
+            T[i, j] = Tk
+            M[r[i], r[j]] = r[k]
+        end
+    end
+end
+
 function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE)
     n, _ = size(Ct)
 
     r = initial_tour
     T = fill(Inf, n, n)
     M = fill(-99, n, n)
+
+    # Naive Computation with O(n^3) complexity
+
+    # @inbounds for i in 1:n-1
+    #     @inbounds for j in i+1:n
+    #         if j == i + 1 
+    #             T[i, j] = Ct[r[i], r[j]]
+    #             M[r[i], r[j]] = -1
+    #         else
+    #             @inbounds for k in i+1:j-1
+    #                 Tk1 = Cd[r[i], r[k]] + Cd[r[k], r[j]]
+    #                 if Tk1 <= flying_range
+    #                     # Tk2 = sum([Ct[r[l], r[l+1]] for l in i:k-2]) + 
+    #                     #         Ct[r[k-1], r[k+1]] + 
+    #                     #         sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
+    #                     Tk2 = zero(eltype(Ct))
+    #                     @inbounds for l in i:k-2
+    #                         Tk2 += Ct[r[l], r[l+1]]
+    #                     end
+    #                     @inbounds Tk2 += Ct[r[k-1], r[k+1]]
+    #                     @inbounds for l in k+1:j-1
+    #                         Tk2 += Ct[r[l], r[l+1]]
+    #                     end
+
+    #                     Tk = max(Tk1, Tk2)
+    #                     if Tk < T[i, j]
+    #                         T[i, j] = Tk
+    #                         M[r[i], r[j]] = r[k]
+    #                     end
+    #                 end
+    #             end       
+                  
+    #         end
+    #     end
+    # end
+
+
+    # Appendix "Speed-up for the exact partitioning algorithm from Section 6.2.2" version
+    # Use recursion for T(i, j, k) calculation
+
+    SUM = zeros(Float64, n, n, n) # Length of truck route bypassing k
+
     @inbounds for i in 1:n-1
         @inbounds for j in i+1:n
-            if j == i + 1 
+            if j == i + 1
                 T[i, j] = Ct[r[i], r[j]]
                 M[r[i], r[j]] = -1
-            else
-                @inbounds for k in i+1:j-1
-                    Tk1 = Cd[r[i], r[k]] + Cd[r[k], r[j]]
-                    if Tk1 <= flying_range
-                        # Tk2 = sum([Ct[r[l], r[l+1]] for l in i:k-2]) + 
-                        #         Ct[r[k-1], r[k+1]] + 
-                        #         sum([Ct[r[l], r[l+1]] for l in k+1:j-1])  
-                        Tk2 = zero(eltype(Ct))
-                        @inbounds for l in i:k-2
-                            Tk2 += Ct[r[l], r[l+1]]
-                        end
-                        @inbounds Tk2 += Ct[r[k-1], r[k+1]]
-                        @inbounds for l in k+1:j-1
-                            Tk2 += Ct[r[l], r[l+1]]
-                        end
-
-                        Tk = max(Tk1, Tk2)
-                        if Tk < T[i, j]
-                            T[i, j] = Tk
-                            M[r[i], r[j]] = r[k]
-                        end
-                    end
-                end       
-                  
+            end
+        end
+    end
+    
+    @inbounds for k in 2:n-1
+        @inbounds for i in k-1:-1:1
+            SUM[i, k+1, k] = i == k-1 ? Ct[r[i], r[k+1]] : Ct[r[i], r[i+1]] + SUM[i+1, k+1, k]
+            check_operation_(r, T, M, i, k+1, k, Cd, SUM, flying_range=flying_range)
+            @inbounds for j in k+1:n
+                if SUM[i, j, k] == 0
+                    SUM[i, j, k] = SUM[i, j-1, k] + Ct[r[j-1], r[j]]
+                    check_operation_(r, T, M, i, j, k, Cd, SUM, flying_range=flying_range)
+                end
             end
         end
     end
