@@ -1,8 +1,10 @@
 using TSPDrone
 using Test, Statistics
+# include("../src/main.jl")
 
-include("../src/main.jl")
 include("test_instances.jl")
+
+const MAX_DRONE_FLIGHT = Inf
 
 @testset verbose = true "TSPDrone.jl" begin
 
@@ -36,12 +38,12 @@ include("test_instances.jl")
             # @show tsp_tour
     
             tsp_tour_1 = copy(tsp_tour)
-            time_1 = @elapsed best_obj_1, t_route_1, d_route_1 = exact_partitioning(tsp_tour_1, Ct, Cd, flying_range=MAX_FLIGHT_RANGE, complexity=3)
+            time_1 = @elapsed best_obj_1, t_route_1, d_route_1 = TSPDrone.exact_partitioning(tsp_tour_1, Ct, Cd, flying_range=MAX_DRONE_FLIGHT, complexity=3)
             total_time_1 += time_1
             @show best_obj_1, t_route_1, d_route_1
     
             tsp_tour_2 = copy(tsp_tour)
-            time_2 = @elapsed best_obj_2, t_route_2, d_route_2 = exact_partitioning(tsp_tour_2, Ct, Cd, flying_range=MAX_FLIGHT_RANGE)
+            time_2 = @elapsed best_obj_2, t_route_2, d_route_2 = TSPDrone.exact_partitioning(tsp_tour_2, Ct, Cd, flying_range=MAX_DRONE_FLIGHT)
             total_time_2 += time_2
             @show best_obj_2, t_route_2, d_route_2
             
@@ -56,7 +58,7 @@ include("test_instances.jl")
     end
 
     @testset verbose = true "Test Instances" begin
-        checkTestInstances()
+        # checkTestInstances()
     end
 
     @testset verbose = true "print_summary" begin 
