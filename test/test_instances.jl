@@ -1,3 +1,11 @@
+# function for random instance generation
+function generate_random_points(n::Int64)
+    x = rand(n)
+    y = rand(n)
+    dist_mtx = sqrt.((x .- x').^2 .+ (y .- y').^2)
+    return x, y, dist_mtx
+end
+
 
 function checkTestInstances(dir_name; method="TSP-ep-all", n_groups=1, flying_range=Inf, time_limit=Inf)
     @info "Testing $dir_name, method=$method, n_groups=$n_groups, flying_range=$flying_range, time_limit=$time_limit"
