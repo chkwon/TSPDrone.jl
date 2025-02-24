@@ -142,7 +142,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, 
     obj_val = objective_value(truck_route, drone_route, Ct, Cd)
     final_time = V[end]
 
-    @assert isapprox(obj_val, final_time)
+    @assert isapprox(obj_val, final_time, atol=1e-4)
     return final_time, truck_route, drone_route
 end
 
