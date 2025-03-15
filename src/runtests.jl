@@ -96,6 +96,8 @@ t1 = time()
 println("average time = ", (t1-t0) / 10, " seconds")
 println("-----------------------------")
 
+println("Just testing for push")
+
 # let
 #     x = rand(1:100, 10) .* 1.0
 #     y = rand(1:100, 10) .* 1.0
