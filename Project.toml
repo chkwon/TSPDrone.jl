@@ -12,7 +12,7 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 [compat]
 PyCall = "1.90"
 Match = "1.2"
-Concorde = "0.1"
+Concorde = "0.1, 0.2"
 julia = "1"
 
 [extras]
