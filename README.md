@@ -199,3 +199,10 @@ If `n_samples = 1` or not provided, it will use the greedy decoding.
 If `n_samples > 1`, then it will generate multiple samples and return the best result.
 
 You can also pass `device`. The default is `device = "cpu"`, but if you have a GPU, then you can also pass the device name, so that `torch` can run on the GPU. 
+
+## Related Packages
+
+- [TSPDroneLIB](https://github.com/chkwon/TSPDroneLIB)
+- [TSPDrone.jl](https://github.com/chkwon/TSPDrone.jl)
+- [TSPDroneHGATAC.jl](https://github.com/Sasanm88/TSPDroneHGATAC.jl)
+- [TSPDroneICP.jl](https://github.com/0505daniel/TSPDroneICP.jl)
