@@ -222,7 +222,7 @@ function tsp_ep_all(
     tsp_tour = find_tsp_tour(x_coordinates, y_coordinates)
     push!(tsp_tour, n_nodes+1) # adding a dummy node for the returning depot 
 
-    return tsp_ep_all(Ct, Cd, tsp_tour, flying_range=flying_range, local_search_methods=local_search_methods, flying_range=flying_range, time_limit=time_limit, quadratic_ep_boost=quadratic_ep_boost)
+    return tsp_ep_all(Ct, Cd, tsp_tour, flying_range=flying_range, local_search_methods=local_search_methods, time_limit=time_limit, quadratic_ep_boost=quadratic_ep_boost)
 end
 
 
