@@ -238,13 +238,8 @@ function tsp_ep_all(
     n, _ = size(Ct)
 
     improved = true
-    if quadratic_ep_boost && flying_range != MAX_DRONE_RANGE
-        precomputed_order = precompute_dist_order(Cd)
-        best_obj, t_route, d_route = exact_partitioning(init_tour, Ct, Cd, flying_range=flying_range, quadratic_ep_boost=true, precomputed_order=precomputed_order)
-    else
-        precomputed = nothing
-    	best_obj, t_route, d_route = exact_partitioning(init_tour, Ct, Cd, flying_range=flying_range, quadratic_ep_boost=quadratic_ep_boost)
-    end
+    precomputed_order = (quadratic_ep_boost && flying_range != MAX_DRONE_RANGE) ? precompute_dist_order(Cd) : nothing
+    best_obj, t_route, d_route = exact_partitioning(init_tour, Ct, Cd, flying_range=flying_range, quadratic_ep_boost=quadratic_ep_boost, precomputed_order=precomputed_order)
 
     best_tour = copy(init_tour)
     best_t_route = copy(t_route)
