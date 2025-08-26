@@ -69,7 +69,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, 
             if isnothing(precomputed_order)
                 precomputed_order = precompute_dist_order(Cd)
             end
-            J = Vector{Int}(under, n)
+            J = Vector{Int}(undef, n)
             for k_tour in 2:n-1
                 k_node = r[k_tour]
                 @simd for j in k_tour:n
