@@ -159,7 +159,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, 
     truck_route = setdiff(initial_tour, drone_only_nodes)
 
     final_time = V[end]
-    obj_val = tspd_objective_value(truck_route, drone_route, Ct, Cd)
+    obj_val = objective_value(truck_route, drone_route, Ct, Cd)
     @assert isapprox(obj_val, final_time)
 
     return final_time, truck_route, drone_route
