@@ -33,7 +33,7 @@ function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, 
 
     r = initial_tour
     T = fill(Inf, n, n)
-    M = fill(-99, n, n)
+    M = fill(-1, n, n)
 
     sum_Ct = zeros(n, n)
     for i in 1:n-1
