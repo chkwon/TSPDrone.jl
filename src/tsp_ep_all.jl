@@ -28,7 +28,7 @@ function precompute_dist_order(Cd)
     end
     return precomputed_order
 end
-function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, quadratic_ep_boost=false, precomputed_order=nothing)
+function exact_partitioning(initial_tour, Ct, Cd; flying_range=MAX_DRONE_RANGE, quadratic_ep_boost=true, precomputed_order=nothing)
     n, _ = size(Ct)
 
     r = initial_tour
@@ -203,7 +203,7 @@ function tsp_ep_all(
     local_search_methods=[two_point_move, one_point_move, two_opt_move], 
     flying_range=MAX_DRONE_RANGE, 
     time_limit=MAX_TIME_LIMIT,
-    quadratic_ep_boost=false
+    quadratic_ep_boost=true
 )    
     """
     Runs `TSP-ep-all` heuristic algorithm of Agatz et al.
@@ -233,7 +233,7 @@ function tsp_ep_all(
     local_search_methods=[two_point_move, one_point_move, two_opt_move], 
     flying_range=MAX_DRONE_RANGE, 
     time_limit=MAX_TIME_LIMIT,
-    quadratic_ep_boost=false
+    quadratic_ep_boost=true
 )   
     n, _ = size(Ct)
 
